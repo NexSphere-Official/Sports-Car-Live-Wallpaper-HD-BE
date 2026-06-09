@@ -1,0 +1,23 @@
+name            = "sports-car-wallpaper-api"
+main            = "src/index.ts"
+compatibility_date = "2024-09-23"
+
+[observability.logs]
+enabled         = true
+invocation_logs = true
+
+[vars]
+CDN_BASE = "https://cdn-sports-car-wallpaper.nex-sphere.dev"
+
+[[d1_databases]]
+binding  = "DB"
+database_name = "sports-car-wallpaper-db"
+database_id   = "b2f7a14c-a087-4f11-8cb7-dedd178ce1e5"
+
+# Per-IP rate limit: 1000 requests / 60s (~16 req/s sustained).
+# Generous for a wallpaper browsing app; cuts off abuse cleanly.
+[[unsafe.bindings]]
+name         = "RATE_LIMITER"
+type         = "ratelimit"
+namespace_id = "1001"
+simple       = { limit = 1000, period = 60 }
