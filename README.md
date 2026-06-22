@@ -11,7 +11,7 @@ host. The Worker never proxies binary content.
 
 Wallpapers come in two kinds:
 
-- **static** — a `.webp` image + `.webp` thumbnail (154 items)
+- **static** — a `.webp` image + `.webp` thumbnail (171 items)
 - **live** — an `.mp4` video + `.webp` thumbnail (221 items)
 
 ---
@@ -50,8 +50,8 @@ All routes are versioned under `/v1`.
 | Method | Path                       | Purpose                                              |
 | ------ | -------------------------- | ---------------------------------------------------- |
 | GET    | `/v1/wallpapers`           | Ratio-interleaved feed of all wallpapers (cursor)    |
-| GET    | `/v1/wallpapers/live`      | Live wallpapers only, `seq` order (cursor)           |
-| GET    | `/v1/wallpapers/static`    | Static wallpapers only, `seq` order (cursor)         |
+| GET    | `/v1/wallpapers/live`      | Live wallpapers only, newest-first `seq` order       |
+| GET    | `/v1/wallpapers/static`    | Static wallpapers only, newest-first `seq` order     |
 | GET    | `/v1/wallpapers/:id`       | Single wallpaper                                     |
 
 ### Query params
@@ -64,16 +64,17 @@ All routes are versioned under `/v1`.
 ### The ratio feed
 
 `/v1/wallpapers` returns **all** wallpapers — static and live — interleaved in
-proportion to their real counts (currently ~221 live : 154 static, i.e. roughly
-4 live for every 3 static). Each type is spread as evenly as possible through
+proportion to their real counts (currently ~221 live : 171 static, i.e. roughly
+13 live for every 10 static). Each type is spread as evenly as possible through
 the feed rather than clumped. The mix is read live from D1, so it self-adjusts
-as the catalogue grows. The cursor encodes a global position, so paging is
+as the catalogue grows. Each type is read newest-first, so new uploads appear
+at the top of the feed. The cursor encodes a global position, so paging is
 stable and gap-free regardless of page size.
 
 ### The type feeds
 
 `/v1/wallpapers/live` and `/v1/wallpapers/static` return only that one kind, in
-stable `seq` order. The cursor is the offset into that type's list. Same
+newest-first `seq` order. The cursor is the offset into that type's list. Same
 response shape and pagination contract as the combined feed.
 
 ---
@@ -91,17 +92,17 @@ header (mirrors Cloudflare `cf-ray`).
   "data": {
     "wallpapers": [
       {
-        "id": "s_001",
+        "id": "s_171",
         "type": "static",
-        "url": "https://cdn-sports-car-wallpaper.nex-sphere.dev/static/original/s_001.webp",
-        "thumbnail": "https://cdn-sports-car-wallpaper.nex-sphere.dev/static/thumbnails/s_001.webp",
-        "created_at": "2026-06-09 12:00:00"
+        "url": "https://cdn-sports-car-wallpaper.nex-sphere.dev/static/original/s_171.webp",
+        "thumbnail": "https://cdn-sports-car-wallpaper.nex-sphere.dev/static/thumbnails/s_171.webp",
+        "created_at": "2026-06-22 15:20:00"
       },
       {
-        "id": "l_001",
+        "id": "l_221",
         "type": "live",
-        "url": "https://cdn-sports-car-wallpaper.nex-sphere.dev/live/original/l_001.mp4",
-        "thumbnail": "https://cdn-sports-car-wallpaper.nex-sphere.dev/live/thumbnails/l_001.webp",
+        "url": "https://cdn-sports-car-wallpaper.nex-sphere.dev/live/original/l_221.mp4",
+        "thumbnail": "https://cdn-sports-car-wallpaper.nex-sphere.dev/live/thumbnails/l_221.webp",
         "created_at": "2026-06-09 12:00:00"
       }
     ],

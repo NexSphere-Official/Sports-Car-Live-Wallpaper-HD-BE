@@ -25,7 +25,7 @@ export class WallpaperRepository {
     return counts;
   }
 
-  // A contiguous slice of one type in stable `seq` order.
+  // A contiguous slice of one type, newest first by sequence number.
   async pageByType(
     type: WallpaperType,
     offset: number,
@@ -34,7 +34,7 @@ export class WallpaperRepository {
     if (limit <= 0) return [];
     const { results } = await this.db
       .prepare(
-        "SELECT * FROM wallpapers WHERE type = ? AND is_active = 1 ORDER BY seq ASC LIMIT ? OFFSET ?",
+        "SELECT * FROM wallpapers WHERE type = ? AND is_active = 1 ORDER BY seq DESC LIMIT ? OFFSET ?",
       )
       .bind(type, limit, offset)
       .all<WallpaperRow>();
