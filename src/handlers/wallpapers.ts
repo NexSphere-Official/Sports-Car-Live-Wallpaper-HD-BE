@@ -9,8 +9,8 @@ import type { Env, PaginationMeta, WallpaperRow, WallpaperType } from "../types"
 // One ratio-interleaved feed of every active wallpaper. The cursor is the
 // global position `p`; the two types are spread evenly through each other in
 // proportion to their real counts (read live from D1, so the mix self-adjusts
-// as the catalogue grows). Each type is read newest-first, so new wallpapers
-// appear at the top of the mixed feed while preserving the live/static ratio.
+// as the catalogue grows). Each type is read oldest-first, so new wallpapers
+// appear at the end of the mixed feed while preserving the live/static ratio.
 export async function listWallpapers(
   env: Env,
   params: URLSearchParams,
@@ -72,7 +72,7 @@ export async function listWallpapers(
 }
 
 // GET /v1/wallpapers/live  and  GET /v1/wallpapers/static
-// A single-type feed in newest-first `seq` order. The cursor is the offset into
+// A single-type feed in oldest-first `seq` order. The cursor is the offset into
 // that type's list (no interleaving — every row here is the same type).
 export async function listWallpapersByType(
   env: Env,

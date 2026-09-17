@@ -50,8 +50,8 @@ All routes are versioned under `/v1`.
 | Method | Path                       | Purpose                                              |
 | ------ | -------------------------- | ---------------------------------------------------- |
 | GET    | `/v1/wallpapers`           | Ratio-interleaved feed of all wallpapers (cursor)    |
-| GET    | `/v1/wallpapers/live`      | Live wallpapers only, newest-first `seq` order       |
-| GET    | `/v1/wallpapers/static`    | Static wallpapers only, newest-first `seq` order     |
+| GET    | `/v1/wallpapers/live`      | Live wallpapers only, oldest-first `seq` order       |
+| GET    | `/v1/wallpapers/static`    | Static wallpapers only, oldest-first `seq` order     |
 | GET    | `/v1/wallpapers/:id`       | Single wallpaper                                     |
 
 ### Query params
@@ -67,14 +67,14 @@ All routes are versioned under `/v1`.
 proportion to their real counts (currently ~221 live : 171 static, i.e. roughly
 13 live for every 10 static). Each type is spread as evenly as possible through
 the feed rather than clumped. The mix is read live from D1, so it self-adjusts
-as the catalogue grows. Each type is read newest-first, so new uploads appear
-at the top of the feed. The cursor encodes a global position, so paging is
+as the catalogue grows. Each type is read oldest-first, so new uploads appear
+at the end of the feed. The cursor encodes a global position, so paging is
 stable and gap-free regardless of page size.
 
 ### The type feeds
 
 `/v1/wallpapers/live` and `/v1/wallpapers/static` return only that one kind, in
-newest-first `seq` order. The cursor is the offset into that type's list. Same
+oldest-first `seq` order. The cursor is the offset into that type's list. Same
 response shape and pagination contract as the combined feed.
 
 ---

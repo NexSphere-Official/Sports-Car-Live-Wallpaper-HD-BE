@@ -92,8 +92,8 @@ size can change between calls without gaps or duplicates.
 
 Mixed feed of **all** wallpapers. Live and static are interleaved in proportion
 to their real counts (~221 live : 171 static, roughly 13 live for every 10
-static) and spread evenly rather than clumped. Each type is ordered newest-first,
-so new uploads appear at the top of the home grid.
+static) and spread evenly rather than clumped. Each type is ordered oldest-first,
+so new uploads appear at the end of the home grid.
 
 **Request**
 ```
@@ -121,7 +121,7 @@ GET /v1/wallpapers?limit=5
 
 ### 2. Live feed — `GET /v1/wallpapers/live`
 
-Only `live` (video) wallpapers, newest first. Same params and pagination.
+Only `live` (video) wallpapers, oldest first. Same params and pagination.
 
 **Request**
 ```
@@ -147,7 +147,7 @@ GET /v1/wallpapers/live?limit=3
 
 ### 3. Static feed — `GET /v1/wallpapers/static`
 
-Only `static` (image) wallpapers, newest first. Same params and pagination.
+Only `static` (image) wallpapers, oldest first. Same params and pagination.
 
 **Request**
 ```
